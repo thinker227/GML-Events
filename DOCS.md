@@ -51,6 +51,17 @@ Clears all of the event's event functions. Does not destroy the event or the eve
 Struct containing information about an event function. Is returned by `Event.add(func, \[instance], \[auto_remove])` and used as an argument in `Event.remove(func_info)`, as well as being passed as an argument to all event functions. This struct should never need to be manually constructed as it is only used internally and as an argument in event functions.
 
 ### Struct variables
-- `func_method` - The method to trigger once the event is triggered.
-- `instance` - The instance `func_method` is bound to.
-- `auto_remove` - Whether the event function will be automatically removed once the event has been triggered.
+- `{method} func_method` - The method to trigger once the event is triggered.
+- `{instance or struct} instance` - The instance `func_method` is bound to.
+- `{bool} auto_remove` - Whether the event function will be automatically removed once the event has been triggered.
+
+----
+
+## `EventArgs(instance)`
+Struct containing information about an event. Is passed as an argument to `Event.trigger(event_args)` where a copy of the passed instance is given as an argument to all event functions in the event. This struct contains a `copy` method which creates a shallow copy of the struct, it doesn't break anything if called outside of an `Event` struct, but there's really no use in doing such.
+
+### Struct variables
+- `{instance or struct} instance` - The instance the event is bound to.
+- `{Event} event` - The `Event` instance representing the event.
+
+Note that this struct is meant to contain more variables than the ones listed above, specific to the unique purpose of the each event. Add them as you wish using `<EventArgs>.<variable_name>` before passing the struct to `Event.trigger(event_args)`.
