@@ -18,3 +18,13 @@ Adds an event function to the event.
 
 #### Returns
 An `EventFuncInfo` instance corresponding to the arguments provided. Equivalent to `new EventFuncInfo(func, instance, auto_remove)`.
+
+
+### `Event.remove(func_info)`
+Removes an event function from the event.
+
+#### Arguments
+- `{EventFuncInfo} func_info` - The event function to remove from the event.
+
+#### Returns
+A boolean value corresponding to whether the event function was successfully removed.
