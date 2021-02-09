@@ -60,6 +60,9 @@ Struct containing information about an event function. Is returned by `Event.add
 ## `EventArgs(instance)`
 Struct containing information about an event. Is passed as an argument to `Event.trigger(event_args)` where a copy of the passed instance is given as an argument to all event functions in the event. This struct contains a `copy` method which creates a shallow copy of the struct, it doesn't break anything if called outside of an `Event` struct, but there's really no use in doing such.
 
+### Arguments
+- `{instance or struct} instance` - The instance the event is bound to.
+
 ### Struct variables
 - `{instance or struct} instance` - The instance the event is bound to.
 - `{Event} event` - The `Event` instance representing the event.
