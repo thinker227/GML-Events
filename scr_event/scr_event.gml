@@ -44,6 +44,11 @@ function Event() constructor {
 	
 	static remove = function(func_info) {
 		
+		if (instanceof(func_info) != "EventFuncInfo") throw
+			"invalid func info " +
+			string(func_info) +
+			", func info struct has to be constructed from constructor EvemtFuncInfo";
+		
 		for (var i = 0; i < ds_list_size(__func_list); i++) {
 			if (func_info == __func_list[| i]) {
 				ds_list_delete(__func_list, i);
@@ -71,12 +76,10 @@ function Event() constructor {
 		
 		// Default arguments and exceptions
 		if (event_args == undefined) event_args = new EventArgs(__instance);
-		if (
-			!is_struct(event_args) ||
-			!variable_struct_exists(event_args, "instance") ||
-			!variable_struct_exists(event_args, "event") ||
-			!variable_struct_exists(event_args, "copy")
-		) throw "invalid event args " + string(event_args);
+		if (instanceof(event_args) != "EventArgs") throw
+			"invalid event args " +
+			string(event_args) +
+			", event args struct has to be constructed from constructor EventArgs";
 		var event_args_copy = event_args.copy();
 		event_args_copy.event = self;
 		
