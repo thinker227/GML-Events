@@ -26,7 +26,7 @@ var key_func = function(event_args, func_info) {
 	);
 }
 
-obj_main.event_key_press.add(key_func, self, false);
+obj_foo.event_key_press.add(key_func, self, false);
 ```
 
 Step code of `obj_foo`:
