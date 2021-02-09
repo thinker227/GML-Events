@@ -28,3 +28,11 @@ Removes an event function from the event.
 
 #### Returns
 A boolean value corresponding to whether the event function was successfully removed.
+
+
+
+### `Event.trigger(event_args)`
+Triggers the event and all event functions within it.
+
+#### Arguments
+- `{EventArgs}` - The event arguments to be provided to the event functions.
