@@ -35,4 +35,14 @@ A boolean value corresponding to whether the event function was successfully rem
 Triggers the event and all event functions within it.
 
 #### Arguments
-- `{EventArgs}` - The event arguments to be provided to the event functions.
+- `{EventArgs} event_args` - The event arguments to be provided to the event functions.
+
+
+
+### `Event.destroy()`
+Destroys the event. Like any other datastructure within GML, the event should be destroyed once it is no longer in use by anything, otherwise might cause a memory leak.
+
+
+
+### `Event.clear()`
+Clears all of the event's event functions. Does not destroy the event or the event functions, merely clears them from the event.
