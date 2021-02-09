@@ -67,4 +67,13 @@ Struct containing information about an event. Is passed as an argument to `Event
 - `{instance or struct} instance` - The instance the event is bound to.
 - `{Event} event` - The `Event` instance representing the event.
 
-Note that this struct is meant to contain more variables than the ones listed above, specific to the unique purpose of the each event. Add them as you wish using `<EventArgs>.<variable_name>` before passing the struct to `Event.trigger(event_args)`.
+Note that this struct is meant to contain more variables than the ones listed above, specific to the unique purpose of the each event. Add them as you wish using `<EventArgs>.<variable_name> = <value>` before passing the struct to `Event.trigger(event_args)`.
+
+----
+
+## Event function methods
+The event function method is the `func` passed to `Event.add(func, \[instance], \[auto_remove])` and `EventFuncInfo(func, instance, auto_remove)`, and is the method that will be triggered when the event is triggered. The declaration for this method should look like: `function(event_args, func_info)`. Note that these arguments obviously may be named differently, but for simplicity's sake they will be named `event_args` and `func_info` here, and these are the *only* arguments that are provided to the event function method by `Event.trigger(event_args)`. The method does not have to return anything, and if it does, it will simply be discarded.
+
+### Provided arguments
+- `{EventArgs} event_args` - The event args as passed to `Event.trigger(event_args)`.
+- `{EventFuncInfo} func_info` - The `EventFuncInfo` representing the current event function being executed.
