@@ -24,8 +24,8 @@ function Event() constructor {
 		if (auto_remove == undefined) auto_remove = false;
 		
 		// Argument type exceptions
-		if (func == undefined || !is_method(func)) throw "invalid event function" + string(func);
-		if (!instance_exists(instance) && instance != global) throw "invalid instance " + string(instance);
+		if (func == undefined || !is_method(func)) __exception_invalid_argument("event function", string(func));
+		if (!instance_exists(instance) && instance != global) __exception_invalid_argument("instance", string(instance));
 		//if (!is_bool(auto_remove)) throw string(auto_remove) + " not a boolean value";		Broken
 		
 		var func_method = method(instance, func);
@@ -44,10 +44,7 @@ function Event() constructor {
 	
 	static remove = function(func_info) {
 		
-		if (instanceof(func_info) != "EventFuncInfo") throw
-			"invalid func info " +
-			string(func_info) +
-			", func info struct has to be constructed from constructor EvemtFuncInfo";
+		if (instanceof(func_info) != "EventFuncInfo") __exception_invalid_constructor(string(func_info), "func info", "EventFuncInfo");
 		
 		for (var i = 0; i < ds_list_size(__func_list); i++) {
 			if (func_info == __func_list[| i]) {
@@ -72,14 +69,11 @@ function Event() constructor {
 		if (ds_list_size(__func_list) == 0) return;
 		
 		// Trigger instance exception
-		if (other != __instance) throw "cannot trigger event from outside instance";
+		if (other != __instance) __exception_invalid_caller();
 		
 		// Default arguments and exceptions
 		if (event_args == undefined) event_args = new EventArgs(__instance);
-		if (instanceof(event_args) != "EventArgs") throw
-			"invalid event args " +
-			string(event_args) +
-			", event args struct has to be constructed from constructor EventArgs";
+		if (instanceof(event_args) != "EventArgs") __exception_invalid_constructor(string(event_args), "event args", "EventArgs");
 		var event_args_copy = event_args.copy();
 		event_args_copy.event = self;
 		
@@ -121,5 +115,19 @@ function Event() constructor {
 		ds_list_clear(__func_list);
 		
 	}
+	
+	
+	
+	// Exceptions
+	static __exception_invalid_argument = function(type, value) {
+		throw "invalid " + type + " " + string(value) + ".";
+	};
+	static __exception_invalid_constructor = function(struct, argument_name, constructor_name) {
+		throw "invalid " + argument_name + " " + string(struct) + ", " +
+		argument_name + " struct has to be constructed from constructor " + constructor_name + ".";
+	};
+	static __exception_invalid_caller = function() {
+		throw "cannot trigger event from outside instance."
+	};
 	
 }
