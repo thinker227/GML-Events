@@ -4,9 +4,20 @@
 
 function Event() constructor {
 	
-	// Private struct variables
-	__func_list = ds_list_create();
-	__instance = other;
+	// Private readonly struct variables
+	__getset_func_list = function(val) {
+		static func_list = undefined;
+		if (func_list == undefined) func_list = val;
+		return func_list;
+	}
+	__getset_func_list(ds_list_create());
+	
+	__getset_instance = function(val) {
+		static instance = undefined;
+		if (instance == undefined) instance = val;
+		return instance;
+	}
+	__getset_instance(other);
 	
 	
 	
@@ -30,7 +41,7 @@ function Event() constructor {
 		
 		var func_method = method(instance, func);
 		var func_info = new EventFuncInfo(func_method, instance, auto_remove);
-		ds_list_add(__func_list, func_info);
+		ds_list_add(__getset_func_list(), func_info);
 		return func_info;
 		
 	}
@@ -46,9 +57,10 @@ function Event() constructor {
 		
 		if (instanceof(func_info) != "EventFuncInfo") __exception_invalid_constructor(string(func_info), "func info", "EventFuncInfo");
 		
-		for (var i = 0; i < ds_list_size(__func_list); i++) {
-			if (func_info == __func_list[| i]) {
-				ds_list_delete(__func_list, i);
+		var func_list = __getset_func_list();
+		for (var i = 0; i < ds_list_size(func_list); i++) {
+			if (func_info == func_list[| i]) {
+				ds_list_delete(func_list, i);
 				return true;
 			}
 		}
@@ -66,26 +78,30 @@ function Event() constructor {
 	
 	static trigger = function(event_args) {
 		
-		if (ds_list_size(__func_list) == 0) return;
+		// Shorthand for func_list/instance
+		var func_list = __getset_func_list();
+		var bound_instance = __getset_instance();
+		
+		if (ds_list_size(func_list) == 0) return;
 		
 		// Trigger instance exception
-		if (other != __instance) __exception_invalid_caller();
+		if (other != bound_instance) __exception_invalid_caller();
 		
 		// Default arguments and exceptions
-		if (event_args == undefined) event_args = new EventArgs(__instance);
+		if (event_args == undefined) event_args = new EventArgs(bound_instance);
 		if (instanceof(event_args) != "EventArgs") __exception_invalid_constructor(string(event_args), "event args", "EventArgs");
 		var event_args_copy = event_args.copy();
 		event_args_copy.event = self;
 		
 		// Loop through event funcs
 		var func_info;
-		for (var i = 0; i < ds_list_size(__func_list); i++) {
-			func_info = __func_list[| i];
+		for (var i = 0; i < ds_list_size(func_list); i++) {
+			func_info = func_list[| i];
 			
 			func_info.func_method(event_args_copy.copy(), func_info);
 			
 			if (func_info.auto_remove) {
-				ds_list_delete(__func_list, i);
+				ds_list_delete(func_list, i);
 				i--;
 			}
 		}
@@ -100,7 +116,7 @@ function Event() constructor {
 	
 	static destroy = function() {
 		
-		ds_list_destroy(__func_list);
+		ds_list_destroy(__getset_func_list());
 		
 	}
 	
@@ -112,7 +128,7 @@ function Event() constructor {
 	
 	static clear = function() {
 		
-		ds_list_clear(__func_list);
+		ds_list_clear(__getset_func_list());
 		
 	}
 	
