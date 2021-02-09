@@ -9,12 +9,12 @@ To create a new event, use `new Event()`. This constructs a struct containing me
 Adds an event function to the event.
 
 ### Arguments
-- `{method} func` - The method to trigger once the event is triggered. This method will be rebound to `instance`.
+- `{method} func` - The method to trigger once the event is triggered. This method will be rebound to `instance`. See [Event function methods](https://github.com/thinker227/GML-Events/blob/main/DOCS.md#event-function-methods).
 - `{instance or struct} instance` - Optional, defaults to `global`. The instance to bind `func` to.
 - `{bool} auto_remove` - Option, defaults to `false`. Whether to automatically remove the event function from the event when the event is triggered.
 
 ### Returns
-An `EventFuncInfo` instance corresponding to the arguments provided. Equivalent to `new EventFuncInfo(func, instance, auto_remove)`.
+An `EventFuncInfo` instance corresponding to the arguments provided. Equivalent to `new EventFuncInfo(func, instance, auto_remove)`. See [EventFuncInfo](https://github.com/thinker227/GML-Events/blob/main/DOCS.md#eventfuncinfofunc_method-instance-auto_remove).
 
 ----
 
@@ -33,7 +33,7 @@ A boolean value corresponding to whether the event function was successfully rem
 Triggers the event and all event functions within it.
 
 ### Arguments
-- `{EventArgs} event_args` - The event arguments to be provided to the event functions.
+- `{EventArgs} event_args` - The event arguments to be provided to the event functions. See [EventArgs](https://github.com/thinker227/GML-Events/blob/main/DOCS.md#eventargsinstance).
 
 ----
 
@@ -51,7 +51,7 @@ Clears all of the event's event functions. Does not destroy the event or the eve
 Struct containing information about an event function. Is returned by `Event.add(func, \[instance], \[auto_remove])` and used as an argument in `Event.remove(func_info)`, as well as being passed as an argument to all event functions. This struct should never need to be manually constructed as it is only used internally and as an argument in event functions.
 
 ### Struct variables
-- `{method} func_method` - The method to trigger once the event is triggered.
+- `{method} func_method` - The method to trigger once the event is triggered. See [Event function methods](https://github.com/thinker227/GML-Events/blob/main/DOCS.md#event-function-methods).
 - `{instance or struct} instance` - The instance `func_method` is bound to.
 - `{bool} auto_remove` - Whether the event function will be automatically removed once the event has been triggered.
 
@@ -65,7 +65,7 @@ Struct containing information about an event. Is passed as an argument to `Event
 
 ### Struct variables
 - `{instance or struct} instance` - The instance the event is bound to.
-- `{Event} event` - The `Event` instance representing the event.
+- `{Event} event` - The `Event` instance representing the event. See [Event](https://github.com/thinker227/GML-Events/blob/main/DOCS.md#event).
 
 Note that this struct is meant to contain more variables than the ones listed above, specific to the unique purpose of the each event. Add them as you wish using `<EventArgs>.<variable_name> = <value>` before passing the struct to `Event.trigger(event_args)`.
 
