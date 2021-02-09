@@ -44,3 +44,13 @@ Destroys the event. Like any other datastructure within GML, the event should be
 
 ## `Event.clear()`
 Clears all of the event's event functions. Does not destroy the event or the event functions, merely clears them from the event.
+
+----
+
+## `EventFuncInfo(func_method, instance, auto_remove)`
+Struct containing information about an event function. Is returned by `Event.add(func, \[instance], \[auto_remove])` and used as an argument in `Event.remove(func_info)`, as well as being passed as an argument to all event functions. This struct should never need to be manually constructed as it is only used internally and as an argument in event functions.
+
+### Struct variables
+- `func_method` - The method to trigger once the event is triggered.
+- `instance` - The instance `func_method` is bound to.
+- `auto_remove` - Whether the event function will be automatically removed once the event has been triggered.
